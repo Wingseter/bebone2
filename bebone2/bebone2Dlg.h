@@ -3,7 +3,7 @@
 //
 
 #pragma once
-
+#include "database.h"
 
 // Cbebone2Dlg 대화 상자
 class Cbebone2Dlg : public CDialogEx
@@ -25,9 +25,30 @@ public:
 protected:
 	HICON m_hIcon;
 
+	void refresh();
 	// 생성된 메시지 맵 함수
 	virtual BOOL OnInitDialog();
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+public:
+	dataBase db;
+	afx_msg void OnBnClickedSearch();
+	afx_msg void OnBnClickedAdd();
+	afx_msg void OnBnClickedRefresh();
+	// 검색어 입력
+	CEdit input_search;
+	// 이름 입력
+	CEdit input_name;
+	// 주소 입력
+	CEdit input_addr;
+	// 연락처 입력
+	CEdit input_phone;
+	// id로 검색
+	CButton radio_id;
+	// 이름으로 검색
+	CButton radio_name;
+	afx_msg void OnDestroy();
+	// 방문한 사람 목록
+	CListCtrl list_visit;
 };

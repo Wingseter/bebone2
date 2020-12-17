@@ -185,14 +185,17 @@
   <ItemGroup>
     <ClInclude Include="bebone2.h" />
     <ClInclude Include="bebone2Dlg.h" />
+    <ClInclude Include="database.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="static.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bebone2.cpp" />
     <ClCompile Include="bebone2Dlg.cpp" />
+    <ClCompile Include="database.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -204,6 +207,7 @@
     <ResourceCompile Include="bebone2.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".gitignore" />
     <None Include="res\bebone2.rc2" />
   </ItemGroup>
   <ItemGroup>

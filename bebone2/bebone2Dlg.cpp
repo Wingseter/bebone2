@@ -26,15 +26,30 @@ Cbebone2Dlg::Cbebone2Dlg(CWnd* pParent /*=nullptr*/)
 void Cbebone2Dlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, EDIT_SEARCH, input_search);
+	DDX_Control(pDX, EDIT_NAME, input_name);
+	DDX_Control(pDX, EDIT_ADDR, input_addr);
+	DDX_Control(pDX, EDIT_PHONE, input_phone);
+	DDX_Control(pDX, RADIO_ID, radio_id);
+	DDX_Control(pDX, RADIO_NAME, radio_name);
+	DDX_Control(pDX, IDC_LIST1, list_visit);
 }
 
 BEGIN_MESSAGE_MAP(Cbebone2Dlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(BUTTON_SEARCH, &Cbebone2Dlg::OnBnClickedSearch)
+	ON_BN_CLICKED(BUTTON_ADD, &Cbebone2Dlg::OnBnClickedAdd)
+	ON_BN_CLICKED(BUTTON_REFRESH, &Cbebone2Dlg::OnBnClickedRefresh)
+	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 
 // Cbebone2Dlg 메시지 처리기
+
+void Cbebone2Dlg::refresh()
+{
+}
 
 BOOL Cbebone2Dlg::OnInitDialog()
 {
@@ -45,7 +60,7 @@ BOOL Cbebone2Dlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// 큰 아이콘을 설정합니다.
 	SetIcon(m_hIcon, FALSE);		// 작은 아이콘을 설정합니다.
 
-	// TODO: 여기에 추가 초기화 작업을 추가합니다.
+	db = dataBase();
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -86,3 +101,28 @@ HCURSOR Cbebone2Dlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+
+void Cbebone2Dlg::OnBnClickedSearch()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void Cbebone2Dlg::OnBnClickedAdd()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void Cbebone2Dlg::OnBnClickedRefresh()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void Cbebone2Dlg::OnDestroy()
+{
+	CDialogEx::OnDestroy();
+	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
+}

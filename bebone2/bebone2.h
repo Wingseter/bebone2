@@ -9,23 +9,19 @@
 #endif
 
 #include "resource.h"		// 주 기호입니다.
-
-
-// Cbebone2App:
-// 이 클래스의 구현에 대해서는 bebone2.cpp을(를) 참조하세요.
-//
+#include "database.h"
 
 class Cbebone2App : public CWinApp
 {
 public:
 	Cbebone2App();
+	dataBase db;
 
 // 재정의입니다.
 public:
 	virtual BOOL InitInstance();
 
 // 구현입니다.
-
 	DECLARE_MESSAGE_MAP()
 };
 
