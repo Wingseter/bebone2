@@ -69,3 +69,37 @@ void dataBase::exitDB()
 
     return;
 }
+
+bool dataBase::execQuery(TCHAR* query, INT option)
+{
+	// Query 실행 프로시저 사용
+	if (SQL_SUCCESS != SQLExecDirect(sqlStmtHandle, (SQLWCHAR*)query, SQL_NTS)) {
+		// 오류 발생시 종료
+		return false;
+	}
+
+	if (option == 1) {
+		// 정상 실행 시
+		SQLINTEGER iId, iFirst, iSecond, iThird;
+		SQLINTEGER id;
+		SQLCHAR firstVal[50], secondVal[50], thirdVal[50];
+
+		SQLBindCol(sqlStmtHandle, 1, SQL_INTEGER, &id, sizeof(id), &iId);
+		SQLBindCol(sqlStmtHandle, 2, SQL_CHAR, &firstVal, sizeof(firstVal), &iFirst);
+		SQLBindCol(sqlStmtHandle, 3, SQL_CHAR, &secondVal, sizeof(secondVal), &iSecond);
+		SQLBindCol(sqlStmtHandle, 4, SQL_CHAR, &thirdVal, sizeof(thirdVal), &iThird);
+
+		INT counter = 1;
+		while (SQLFetch(sqlStmtHandle) != SQL_NO_DATA) {
+			wsprintf(result[counter], TEXT("%ld %s %s %s"), id, firstVal, secondVal, thirdVal);
+			counter++;
+		}
+		wsprintf(result[0], TEXT("%d"), counter-1);
+		return true;
+	}
+}
+
+TCHAR(*dataBase::getResult(void))[200]
+{
+	return result;
+}
