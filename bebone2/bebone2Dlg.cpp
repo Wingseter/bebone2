@@ -32,7 +32,7 @@ void Cbebone2Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, EDIT_PHONE, input_phone);
 	DDX_Control(pDX, RADIO_ID, radio_id);
 	DDX_Control(pDX, RADIO_NAME, radio_name);
-	DDX_Control(pDX, IDC_LIST1, list_visit);
+	DDX_Control(pDX, LIST_VISITOR, list_visit);
 }
 
 BEGIN_MESSAGE_MAP(Cbebone2Dlg, CDialogEx)
@@ -60,7 +60,7 @@ BOOL Cbebone2Dlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// 큰 아이콘을 설정합니다.
 	SetIcon(m_hIcon, FALSE);		// 작은 아이콘을 설정합니다.
 
-	db = dataBase();
+	db = new dataBase();
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -117,7 +117,12 @@ void Cbebone2Dlg::OnBnClickedAdd()
 
 void Cbebone2Dlg::OnBnClickedRefresh()
 {
-	db.execQuery(L"SELECT * FROM Visitors", 1);
+	db->execQuery("SELECT * FROM Visitors", 1);
+
+	while (db->next()) {
+		dbresult = db->getResult();
+		list_visit.InsertString(-1, dbresult);
+	}
 }
 
 
@@ -125,4 +130,5 @@ void Cbebone2Dlg::OnDestroy()
 {
 	CDialogEx::OnDestroy();
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
+	delete(db);
 }

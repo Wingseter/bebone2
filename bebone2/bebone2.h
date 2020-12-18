@@ -15,7 +15,6 @@ class Cbebone2App : public CWinApp
 {
 public:
 	Cbebone2App();
-	dataBase db;
 
 // 재정의입니다.
 public:

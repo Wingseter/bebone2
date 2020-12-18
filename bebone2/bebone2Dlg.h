@@ -32,7 +32,8 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 public:
-	dataBase db;
+	dataBase* db;
+	char *dbresult;
 	afx_msg void OnBnClickedSearch();
 	afx_msg void OnBnClickedAdd();
 	afx_msg void OnBnClickedRefresh();
@@ -49,6 +50,6 @@ public:
 	// 이름으로 검색
 	CButton radio_name;
 	afx_msg void OnDestroy();
-	// 방문한 사람 목록
-	CListCtrl list_visit;
+	// 전체 명부 목록
+	CListBox list_visit;
 };
