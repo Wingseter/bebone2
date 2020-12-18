@@ -25,7 +25,12 @@ public:
 protected:
 	HICON m_hIcon;
 
+	// 목록 새로고침
 	void refresh();
+
+	// 목록 비우기
+	void clear();
+
 	// 생성된 메시지 맵 함수
 	virtual BOOL OnInitDialog();
 	afx_msg void OnPaint();
@@ -50,6 +55,6 @@ public:
 	// 이름으로 검색
 	CButton radio_name;
 	afx_msg void OnDestroy();
-	// 전체 명부 목록
-	CListBox list_visit;
+	// 방문자 목록
+	CListCtrl list_visitor;
 };
