@@ -51,8 +51,6 @@ bool dataBase::connectDB()
 	}
 	// 만약 연결에 문제가 있다면
 	// 종료 한다.
-	if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_STMT, sqlConnHandle, &sqlStmtHandle))
-		checkError = FALSE;
 
 	if (checkError) {
 		MessageBox(NULL, "DB연결 성공!", "Regular Warning", 0);
@@ -78,9 +76,12 @@ void dataBase::exitDB()
 
 bool dataBase::execQuery(TCHAR* query, INT option)
 {
+	if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_STMT, sqlConnHandle, &sqlStmtHandle))
+		checkError = FALSE;
+
 	// Query 실행 프로시저 사용
 	if (SQL_SUCCESS != SQLExecDirect(sqlStmtHandle, (SQLCHAR*)query, SQL_NTS)) {
-		// 오류 발생시 종료
+		// 오류 발생시 종료	
 		return false;
 	}
 	if (option == 1) {

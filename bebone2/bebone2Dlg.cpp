@@ -120,10 +120,21 @@ void Cbebone2Dlg::OnBnClickedSearch()
 
 void Cbebone2Dlg::OnBnClickedAdd()
 {
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString name, location, phone;
+	char query[100];
+
+	input_name.GetWindowTextA(name);
+	input_addr.GetWindowTextA(location);
+	input_phone.GetWindowTextA(phone);
+
+	sprintf_s(query, sizeof(query), "EXEC dbo.input_new_user '%s','%s','%s'", LPSTR(LPCTSTR(name)), LPSTR(LPCTSTR(location)), LPSTR(LPCTSTR(phone)));
+
+
+	db->execQuery(query, 0);
+	refresh();
 }
 
-
+// 새로고침 버튼 클릭시 호출
 void Cbebone2Dlg::OnBnClickedRefresh()
 {
 	refresh();

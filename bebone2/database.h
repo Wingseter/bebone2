@@ -4,7 +4,6 @@
 #include <sqltypes.h>
 #include <sql.h>
 #include <wchar.h>
-#include <Windows.h>
 
 #pragma comment(lib, "odbc32.lib")
 
@@ -31,6 +30,7 @@ private:
 	SQLHANDLE sqlStmtHandle;
 	SQLHANDLE sqlEnvHandle;
 	SQLCHAR retconstring[SQL_RETURN_CODE_LEN];
+	SQLRETURN retval;
 
 	char result[SQL_RESULT_LEN]; // 결과 저장 버퍼
 	bool checkError; // 에러 체크
