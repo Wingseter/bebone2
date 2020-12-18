@@ -91,6 +91,8 @@ BOOL Cbebone2Dlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// 큰 아이콘을 설정합니다.
 	SetIcon(m_hIcon, FALSE);		// 작은 아이콘을 설정합니다.
 
+	SetWindowText("Covid-19 visitor List");
+
 	// DB 초기화
 	db = new dataBase();
 
@@ -100,8 +102,8 @@ BOOL Cbebone2Dlg::OnInitDialog()
 	list_visitor.InsertColumn(0, "id", LVCFMT_LEFT, 100);
 	list_visitor.InsertColumn(1, "Name", LVCFMT_LEFT, 100);
 	list_visitor.InsertColumn(2, "Location", LVCFMT_LEFT, 100);
-	list_visitor.InsertColumn(3, "Phone", LVCFMT_LEFT, 150);
-	list_visitor.InsertColumn(4, "Time", LVCFMT_LEFT, listRect.Width() - 450);
+	list_visitor.InsertColumn(3, "Phone", LVCFMT_LEFT, 100);
+	list_visitor.InsertColumn(4, "Time", LVCFMT_LEFT, listRect.Width() - 400);
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -120,7 +122,6 @@ void Cbebone2Dlg::OnPaint()
 		// 클라이언트 사각형에서 아이콘을 가운데에 맞춥니다.
 		int cxIcon = GetSystemMetrics(SM_CXICON);
 		int cyIcon = GetSystemMetrics(SM_CYICON);
-		
 		
 		CRect rect;
 		GetClientRect(&rect);
