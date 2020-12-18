@@ -49,6 +49,15 @@ END_MESSAGE_MAP()
 
 void Cbebone2Dlg::refresh()
 {
+	// 전체 목록 새로 고침
+	db->execQuery("SELECT * FROM Visitors", 1);
+
+	// 다음 column 으로 이동
+	while (db->next()) {
+		// 결과 얻기
+		dbresult = db->getResult();
+		list_visit.InsertString(-1, dbresult);
+	}
 }
 
 BOOL Cbebone2Dlg::OnInitDialog()
@@ -117,18 +126,12 @@ void Cbebone2Dlg::OnBnClickedAdd()
 
 void Cbebone2Dlg::OnBnClickedRefresh()
 {
-	db->execQuery("SELECT * FROM Visitors", 1);
-
-	while (db->next()) {
-		dbresult = db->getResult();
-		list_visit.InsertString(-1, dbresult);
-	}
+	refresh();
 }
 
 
 void Cbebone2Dlg::OnDestroy()
 {
 	CDialogEx::OnDestroy();
-	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
-	delete(db);
+	delete db;
 }

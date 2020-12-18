@@ -101,7 +101,7 @@ bool dataBase::next()
 			if (ids[i] < 0) {
 				break;
 			}
-			sprintf_s(result, SQL_RESULT_LEN, "%s %s", result, values[i]);
+			sprintf_s(result, SQL_RESULT_LEN, "%s|%s",  result, values[i]);
 		}
 	}
 	else {
