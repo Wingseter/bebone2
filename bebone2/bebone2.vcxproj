@@ -198,6 +198,7 @@
   <ItemGroup>
     <ClCompile Include="bebone2.cpp" />
     <ClCompile Include="bebone2Dlg.cpp" />
+    <ClCompile Include="column.cpp" />
     <ClCompile Include="database.cpp" />
     <ClCompile Include="listControl.cpp" />
     <ClCompile Include="pch.cpp">

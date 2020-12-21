@@ -65,6 +65,9 @@
     <ClCompile Include="listControl.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="column.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="bebone2.rc">

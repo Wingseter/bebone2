@@ -4,8 +4,12 @@
 
 class column {
 public:
-	column(CDC * c_dc);
+	column(TCHAR * name, INT w, CDC * dc);
 	~column();
+	void draw();
+	void insertRow();
 private:	
 	CDC* c_dc;
+	INT width;
+	TCHAR* colName;
 };

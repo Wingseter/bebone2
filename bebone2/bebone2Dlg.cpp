@@ -127,8 +127,8 @@ BOOL Cbebone2Dlg::OnInitDialog()
 	dc = GetDC();
 
 	// 리스트 컨트롤 만들기
-	list_visit = new listControl(dc);
-
+	list_visit = new listControl(0, 0, 100, 100, dc);
+	list_visit->insertColumn(0, "hello", 10);
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -202,7 +202,10 @@ void Cbebone2Dlg::OnBnClickedSearch()
 		sprintf_s(query, sizeof(query), "EXEC dbo.find_visitor_by_date '%s'", LPSTR(LPCTSTR(input)));
 	}
 	
+	// 정보 검색 실행
 	db->execQuery(query, 1);
+
+	// 검색 결과로 업데이트
 	update();
 
 	// 입력된 텍스트 지우기
