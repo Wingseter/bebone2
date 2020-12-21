@@ -33,6 +33,8 @@ void Cbebone2Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, RADIO_ID, radio_id);
 	DDX_Control(pDX, RADIO_NAME, radio_name);
 	DDX_Control(pDX, LIST_VISITORS, list_visitor);
+	DDX_Control(pDX, RADIO_DATE, radio_date);
+	DDX_Control(pDX, INPUT_DATE, input_date);
 }
 
 BEGIN_MESSAGE_MAP(Cbebone2Dlg, CDialogEx)
@@ -117,6 +119,9 @@ BOOL Cbebone2Dlg::OnInitDialog()
 	// 전체 목록 불러오기
 	refresh();
 
+	// 기본으로 id 검색 체크
+	radio_id.SetCheck(TRUE);
+
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
 
@@ -165,27 +170,32 @@ void Cbebone2Dlg::OnBnClickedSearch()
 	// Query 문자열
 	char query[100];
 
-	// 텍스트 상자로 부터 정보 가져오기
-	input_search.GetWindowTextA(input);
 
+	clear();
 	// id로 검색
 	if (radio_id.GetCheck()) {
-		clear();
-		sprintf_s(query, sizeof(query), "EXEC dbo.find_visitor_id '%s'", LPSTR(LPCTSTR(input)));
-		db->execQuery(query, 1);
-		update();
+		// 텍스트 상자로 부터 정보 가져오기
+		input_search.GetWindowTextA(input);
+		sprintf_s(query, sizeof(query), "EXEC dbo.find_visitor_by_id '%s'", LPSTR(LPCTSTR(input)));
 	}
-
-	
 	// 이름으로 검색
-	if (radio_name.GetCheck()) {
-		clear();
+	else if (radio_name.GetCheck()) {
+		// 텍스트 상자로 부터 정보 가져오기
+		input_search.GetWindowTextA(input);		
 		sprintf_s(query, sizeof(query), "EXEC dbo.find_visitor_by_name '%s'", LPSTR(LPCTSTR(input)));
-		db->execQuery(query, 1);
-		update();
 	}
+	// 날짜로 검색
+	else if (radio_date.GetCheck()) {
+		// 날짜 입력 상자로 부터 정보 가져오기
+		input_date.GetWindowTextA(input);
+		sprintf_s(query, sizeof(query), "EXEC dbo.find_visitor_by_date '%s'", LPSTR(LPCTSTR(input)));
+	}
+	
+	db->execQuery(query, 1);
+	update();
 
-
+	// 입력된 텍스트 지우기
+	input_search.Clear();
 }
 
 
@@ -210,6 +220,11 @@ void Cbebone2Dlg::OnBnClickedAdd()
 
 	// 전체 목록 불러오기
 	refresh();
+
+	// 입력된 텍스트 지우기
+	input_name.Clear();
+	input_addr.Clear();
+	input_phone.Clear();
 }
 
 // 새로고침 버튼 클릭시 호출

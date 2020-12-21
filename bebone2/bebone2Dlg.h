@@ -60,4 +60,8 @@ public:
 	afx_msg void OnDestroy();
 	// 방문자 목록
 	CListCtrl list_visitor;
+	// 날짜로 검색
+	CButton radio_date;
+	// 날짜 입력
+	CDateTimeCtrl input_date;
 };
