@@ -44,6 +44,7 @@ BEGIN_MESSAGE_MAP(Cbebone2Dlg, CDialogEx)
 	ON_BN_CLICKED(BUTTON_ADD, &Cbebone2Dlg::OnBnClickedAdd)
 	ON_BN_CLICKED(BUTTON_REFRESH, &Cbebone2Dlg::OnBnClickedRefresh)
 	ON_WM_DESTROY()
+	ON_BN_CLICKED(BUTTON_PRINT, &Cbebone2Dlg::OnBnClickedPrint)
 END_MESSAGE_MAP()
 
 
@@ -122,6 +123,13 @@ BOOL Cbebone2Dlg::OnInitDialog()
 	// 기본으로 id 검색 체크
 	radio_id.SetCheck(TRUE);
 
+	// 윈도우에 그릴 디바이스 컨텍스트 초기화
+	dc = GetDC();
+
+	// 리스트 컨트롤 만들기
+	list_visit = new listControl(dc);
+
+
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
 
@@ -150,7 +158,10 @@ void Cbebone2Dlg::OnPaint()
 	}
 	else
 	{
+		// 그림 그린 부분
 		CDialogEx::OnPaint();
+
+		list_visit->draw();
 	}
 }
 
@@ -240,6 +251,15 @@ void Cbebone2Dlg::OnDestroy()
 	CDialogEx::OnDestroy();
 	// DB 종료
 	delete db;
+	delete list_visit;
+	ReleaseDC(dc);
 }
 
 
+
+
+void Cbebone2Dlg::OnBnClickedPrint()
+{
+	// 프린터 정보 설정
+	// TODO: 프린트 하기
+}

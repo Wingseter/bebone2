@@ -4,6 +4,7 @@
 
 #pragma once
 #include "database.h"
+#include "listControl.h"
 
 // Cbebone2Dlg 대화 상자
 class Cbebone2Dlg : public CDialogEx
@@ -25,6 +26,8 @@ public:
 protected:
 	HICON m_hIcon;
 
+	CDC *dc;
+
 	// 목록 전체 새로고침
 	void refresh();
 
@@ -45,6 +48,8 @@ public:
 	afx_msg void OnBnClickedSearch();
 	afx_msg void OnBnClickedAdd();
 	afx_msg void OnBnClickedRefresh();
+	afx_msg void OnBnClickedPrint();
+	afx_msg void OnDestroy();
 	// 검색어 입력
 	CEdit input_search;
 	// 이름 입력
@@ -53,15 +58,17 @@ public:
 	CEdit input_addr;
 	// 연락처 입력
 	CEdit input_phone;
+	// 날짜 입력
+	CDateTimeCtrl input_date;
 	// id로 검색
 	CButton radio_id;
 	// 이름으로 검색
 	CButton radio_name;
-	afx_msg void OnDestroy();
-	// 방문자 목록
-	CListCtrl list_visitor;
 	// 날짜로 검색
 	CButton radio_date;
-	// 날짜 입력
-	CDateTimeCtrl input_date;
+	// 방문자 목록
+	CListCtrl list_visitor;
+
+	// 방문자 목록 자작
+	listControl * list_visit;
 };
