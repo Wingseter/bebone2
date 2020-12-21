@@ -129,6 +129,7 @@ BOOL Cbebone2Dlg::OnInitDialog()
 	// 리스트 컨트롤 만들기
 	list_visit = new listControl(0, 0, 100, 100, dc);
 	list_visit->insertColumn(0, "hello", 10);
+	list_visit->insertItem(0, "test");
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }

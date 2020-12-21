@@ -3,10 +3,11 @@
 
 class cell {
 public:
-	cell(CDC * dc);
+	cell(INT x, INT y, TCHAR * newData, CDC * dc);
 	~cell();
-	void draw(int xPos, int yPos);
+	void draw();
 private:
-	char data[100];
-	CDC* dc;
+	INT xPos, yPos;
+	TCHAR data[100];
+	CDC* c_dc;
 };
