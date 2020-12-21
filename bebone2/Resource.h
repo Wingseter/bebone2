@@ -13,7 +13,6 @@
 #define RADIO_ID                        1007
 #define RADIO_NAME                      1008
 #define BUTTON_REFRESH                  1009
-#define LIST_VISITORS                   1012
 #define INPUT_DATE                      1013
 #define RADIO_DATE                      1014
 #define BUTTON_PRINT                    1017

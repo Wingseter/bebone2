@@ -66,8 +66,6 @@ public:
 	CButton radio_name;
 	// 날짜로 검색
 	CButton radio_date;
-	// 방문자 목록
-	CListCtrl list_visitor;
 
 	// 방문자 목록 자작
 	listControl * list_visit;

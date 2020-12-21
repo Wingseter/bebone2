@@ -48,5 +48,17 @@ void listControl::insertColumn(INT nCol, TCHAR* colName, INT width)
 void listControl::insertItem(INT nRow, TCHAR* data)
 {
 	itor = columns.begin();
+
+	INT i = 0;
+	for (itor = columns.begin(); itor != columns.end(); itor++, i++) {
+		column* itorColumn = *itor;
+		if (i == 0) {
+			itorColumn->insertRow(nRow, data);
+		}
+		else {
+			itorColumn->insertRow(nRow, "");
+		}
+	}
+
 	columns[nRow]->insertRow(nRow, data);
 }

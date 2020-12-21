@@ -32,7 +32,7 @@ void Cbebone2Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, EDIT_PHONE, input_phone);
 	DDX_Control(pDX, RADIO_ID, radio_id);
 	DDX_Control(pDX, RADIO_NAME, radio_name);
-	DDX_Control(pDX, LIST_VISITORS, list_visitor);
+	//DDX_Control(pDX, LIST_VISITORS, list_visitor);
 	DDX_Control(pDX, RADIO_DATE, radio_date);
 	DDX_Control(pDX, INPUT_DATE, input_date);
 }
@@ -67,7 +67,7 @@ void Cbebone2Dlg::clear()
 	// db 결과 버퍼 비우기
 	db->clearResult();
 	// 모든 리스트 아이템 지우기
-	list_visitor.DeleteAllItems();
+	//list_visitor.DeleteAllItems();
 }
 
 void Cbebone2Dlg::update()
@@ -82,13 +82,13 @@ void Cbebone2Dlg::update()
 		char* cutPtr = strtok_s(dbresult, "|", &context);
 
 		// 새로운 ROW 추가
-		list_visitor.InsertItem(i, cutPtr);
+		//list_visitor.InsertItem(i, cutPtr);
 		// 첫번째 column 패스
 		cutPtr = strtok_s(NULL, "|", &context);
 
 		// ROW에 아이템 추가
 		for (int j = 0; cutPtr != NULL; j++) {
-			list_visitor.SetItemText(i, j + 1, cutPtr);
+			//list_visitor.SetItemText(i, j + 1, cutPtr);
 			cutPtr = strtok_s(NULL, "|", &context);
 		}
 	}
@@ -110,12 +110,12 @@ BOOL Cbebone2Dlg::OnInitDialog()
 
 	// 목록 초기화
 	CRect listRect;
-	list_visitor.GetClientRect(&listRect);
+	/*list_visitor.GetClientRect(&listRect);
 	list_visitor.InsertColumn(0, "id", LVCFMT_LEFT, 100);
 	list_visitor.InsertColumn(1, "Name", LVCFMT_LEFT, 100);
 	list_visitor.InsertColumn(2, "Location", LVCFMT_LEFT, 100);
 	list_visitor.InsertColumn(3, "Phone", LVCFMT_LEFT, 100);
-	list_visitor.InsertColumn(4, "Time", LVCFMT_LEFT, listRect.Width() - 400);
+	list_visitor.InsertColumn(4, "Time", LVCFMT_LEFT, listRect.Width() - 400);*/
 
 	// 전체 목록 불러오기
 	refresh();
@@ -127,7 +127,7 @@ BOOL Cbebone2Dlg::OnInitDialog()
 	dc = GetDC();
 
 	// 리스트 컨트롤 만들기
-	list_visit = new listControl(0, 0, 100, 100, dc);
+	list_visit = new listControl(10, 10, 580, 330, dc);
 	list_visit->insertColumn(0, "hello", 10);
 	list_visit->insertItem(0, "test");
 
