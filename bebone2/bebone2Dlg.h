@@ -25,11 +25,14 @@ public:
 protected:
 	HICON m_hIcon;
 
-	// 목록 새로고침
+	// 목록 전체 새로고침
 	void refresh();
 
 	// 목록 비우기
 	void clear();
+
+	// 목록 업데이트
+	void update();
 
 	// 생성된 메시지 맵 함수
 	virtual BOOL OnInitDialog();

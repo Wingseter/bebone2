@@ -23,6 +23,7 @@ public:
 	bool next();
 	// 결과 가져오기
 	char * getResult();
+	void clearResult();
 
 private:
 	// SQL Query를 위한 변수 정의
@@ -42,6 +43,4 @@ private:
 	// 함수 정의
 	bool connectDB();
 	void exitDB();
-	
-
 };

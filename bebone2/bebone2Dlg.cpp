@@ -52,9 +52,23 @@ void Cbebone2Dlg::refresh()
 	// 전체 목록 지우기
 	clear();
 
-	// 전체 목록 새로 고침
+	// 전체 목록 불러오기
 	db->execQuery("SELECT * FROM Visitors", 1);
 
+	// 목록 업데이트
+	update();
+}
+
+void Cbebone2Dlg::clear()
+{
+	// db 결과 버퍼 비우기
+	db->clearResult();
+	// 모든 리스트 아이템 지우기
+	list_visitor.DeleteAllItems();
+}
+
+void Cbebone2Dlg::update()
+{
 	// 다음 column 으로 이동
 	for (int i = 0; db->next(); i++) {
 		// 결과 얻기
@@ -71,15 +85,10 @@ void Cbebone2Dlg::refresh()
 
 		// ROW에 아이템 추가
 		for (int j = 0; cutPtr != NULL; j++) {
-			list_visitor.SetItemText(i, j+ 1, cutPtr);
+			list_visitor.SetItemText(i, j + 1, cutPtr);
 			cutPtr = strtok_s(NULL, "|", &context);
 		}
 	}
-}
-
-void Cbebone2Dlg::clear()
-{
-	list_visitor.DeleteAllItems();
 }
 
 BOOL Cbebone2Dlg::OnInitDialog()
@@ -104,6 +113,9 @@ BOOL Cbebone2Dlg::OnInitDialog()
 	list_visitor.InsertColumn(2, "Location", LVCFMT_LEFT, 100);
 	list_visitor.InsertColumn(3, "Phone", LVCFMT_LEFT, 100);
 	list_visitor.InsertColumn(4, "Time", LVCFMT_LEFT, listRect.Width() - 400);
+
+	// 전체 목록 불러오기
+	refresh();
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -144,10 +156,36 @@ HCURSOR Cbebone2Dlg::OnQueryDragIcon()
 }
 
 
-
+// 검색 기능 함수
 void Cbebone2Dlg::OnBnClickedSearch()
 {
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	// 입력한 문자열 가져오기
+	CString input;
+
+	// Query 문자열
+	char query[100];
+
+	// 텍스트 상자로 부터 정보 가져오기
+	input_search.GetWindowTextA(input);
+
+	// id로 검색
+	if (radio_id.GetCheck()) {
+		clear();
+		sprintf_s(query, sizeof(query), "EXEC dbo.find_visitor_id '%s'", LPSTR(LPCTSTR(input)));
+		db->execQuery(query, 1);
+		update();
+	}
+
+	
+	// 이름으로 검색
+	if (radio_name.GetCheck()) {
+		clear();
+		sprintf_s(query, sizeof(query), "EXEC dbo.find_visitor_by_name '%s'", LPSTR(LPCTSTR(input)));
+		db->execQuery(query, 1);
+		update();
+	}
+
+
 }
 
 
@@ -167,16 +205,17 @@ void Cbebone2Dlg::OnBnClickedAdd()
 	// 문자열 조합
 	sprintf_s(query, sizeof(query), "EXEC dbo.input_new_user '%s','%s','%s'", LPSTR(LPCTSTR(name)), LPSTR(LPCTSTR(location)), LPSTR(LPCTSTR(phone)));
 
-	// Query 실행
+	// 사용자 입력 실행
 	db->execQuery(query, 0);
 
+	// 전체 목록 불러오기
 	refresh();
 }
 
 // 새로고침 버튼 클릭시 호출
 void Cbebone2Dlg::OnBnClickedRefresh()
 {
-	// 새로고침
+	// 전체 목록 불러오기
 	refresh();
 }
 

@@ -97,7 +97,7 @@ bool dataBase::execQuery(TCHAR* query, INT option)
 bool dataBase::next()
 {
 	if (SQLFetch(sqlStmtHandle) != SQL_NO_DATA) {
-		memset(result, 0, sizeof(result));
+		clearResult();
 		for (int i = 0; i < MAX_COLUMN; i++) {
 			if (ids[i] < 0) {
 				break;
@@ -113,4 +113,9 @@ bool dataBase::next()
 char* dataBase::getResult()
 {
 	return result;
+}
+
+void dataBase::clearResult()
+{
+	memset(result, 0, sizeof(result));
 }
