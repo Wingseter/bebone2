@@ -6,8 +6,8 @@ public:
 	cell(TCHAR * newData, CDC * dc);
 	~cell();
 	void draw(INT x, INT y);
+	void setText(TCHAR* data);
 private:
-	INT xPos, yPos;
 	TCHAR data[100];
 	CDC* c_dc;
 };

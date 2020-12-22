@@ -68,11 +68,21 @@ void listControl::insertItem(INT nRow, TCHAR* data)
 			itor->insertRow(nRow, "");
 		}
 	}
+}
 
-	//columns[nRow]->insertRow(nRow, data);
+void listControl::setItemText(INT nRow, INT nSubItem, TCHAR* data)
+{
+	columns[nSubItem].setCellText(nRow, data);
 }
 
 void listControl::GetClientRect(CRect* rect)
 {
 	rect->SetRect(xPos, yPos, xPos + width, yPos + height);
+}
+
+void listControl::deleteAllItems()
+{
+	for (itor = columns.begin(); itor != columns.end(); itor++) {
+		itor->deleteAllCells();
+	}
 }

@@ -67,7 +67,7 @@ void Cbebone2Dlg::clear()
 	// db 결과 버퍼 비우기
 	db->clearResult();
 	// 모든 리스트 아이템 지우기
-	//list_visitor.DeleteAllItems();
+	list_visit->deleteAllItems();
 }
 
 void Cbebone2Dlg::update()
@@ -82,16 +82,19 @@ void Cbebone2Dlg::update()
 		char* cutPtr = strtok_s(dbresult, "|", &context);
 
 		// 새로운 ROW 추가
-		//list_visitor.InsertItem(i, cutPtr);
-		// 첫번째 column 패스
+		list_visit->insertItem(i, cutPtr);
+
+		// 첫번째 ROW 무시
 		cutPtr = strtok_s(NULL, "|", &context);
 
 		// ROW에 아이템 추가
 		for (int j = 0; cutPtr != NULL; j++) {
-			//list_visitor.SetItemText(i, j + 1, cutPtr);
+			list_visit->setItemText(i, j + 1, cutPtr);
 			cutPtr = strtok_s(NULL, "|", &context);
 		}
 	}
+
+	list_visit->draw();
 }
 
 BOOL Cbebone2Dlg::OnInitDialog()
@@ -108,23 +111,13 @@ BOOL Cbebone2Dlg::OnInitDialog()
 	// DB 초기화
 	db = new dataBase();
 
-	// 목록 초기화
-	/*list_visitor.GetClientRect(&listRect);
-	list_visitor.InsertColumn(0, "id", LVCFMT_LEFT, 100);
-	list_visitor.InsertColumn(1, "Name", LVCFMT_LEFT, 100);
-	list_visitor.InsertColumn(2, "Location", LVCFMT_LEFT, 100);
-	list_visitor.InsertColumn(3, "Phone", LVCFMT_LEFT, 100);
-	list_visitor.InsertColumn(4, "Time", LVCFMT_LEFT, listRect.Width() - 400);*/
-
-	// 전체 목록 불러오기
-	refresh();
-
 	// 기본으로 id 검색 체크
 	radio_id.SetCheck(TRUE);
 
 	// 윈도우에 그릴 디바이스 컨텍스트 초기화
 	dc = GetDC();
 
+	// 목록 초기화
 	// 리스트 컨트롤 만들기
 	CRect listRect;
 	list_visit = new listControl(10, 10, 580, 300, dc);
@@ -134,7 +127,9 @@ BOOL Cbebone2Dlg::OnInitDialog()
 	list_visit->insertColumn(2, "Location", 100);
 	list_visit->insertColumn(4, "Phone", 100);
 	list_visit->insertColumn(5, "Time", listRect.Width() - 400);
-	list_visit->insertItem(0, "test");
+
+	// 전체 목록 불러오기
+	refresh();
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -153,7 +148,7 @@ void Cbebone2Dlg::OnPaint()
 		// 클라이언트 사각형에서 아이콘을 가운데에 맞춥니다.
 		int cxIcon = GetSystemMetrics(SM_CXICON);
 		int cyIcon = GetSystemMetrics(SM_CYICON);
-		
+
 		CRect rect;
 		GetClientRect(&rect);
 		int x = (rect.Width() - cxIcon + 1) / 2;
@@ -198,7 +193,7 @@ void Cbebone2Dlg::OnBnClickedSearch()
 	// 이름으로 검색
 	else if (radio_name.GetCheck()) {
 		// 텍스트 상자로 부터 정보 가져오기
-		input_search.GetWindowTextA(input);		
+		input_search.GetWindowTextA(input);
 		sprintf_s(query, sizeof(query), "EXEC dbo.find_visitor_by_name '%s'", LPSTR(LPCTSTR(input)));
 	}
 	// 날짜로 검색
@@ -207,7 +202,7 @@ void Cbebone2Dlg::OnBnClickedSearch()
 		input_date.GetWindowTextA(input);
 		sprintf_s(query, sizeof(query), "EXEC dbo.find_visitor_by_date '%s'", LPSTR(LPCTSTR(input)));
 	}
-	
+
 	// 정보 검색 실행
 	db->execQuery(query, 1);
 
@@ -245,6 +240,7 @@ void Cbebone2Dlg::OnBnClickedAdd()
 	input_name.Clear();
 	input_addr.Clear();
 	input_phone.Clear();
+
 }
 
 // 새로고침 버튼 클릭시 호출
@@ -252,6 +248,7 @@ void Cbebone2Dlg::OnBnClickedRefresh()
 {
 	// 전체 목록 불러오기
 	refresh();
+
 }
 
 // 종료시 호출
@@ -270,5 +267,6 @@ void Cbebone2Dlg::OnDestroy()
 void Cbebone2Dlg::OnBnClickedPrint()
 {
 	// 프린터 정보 설정
-	// TODO: 프린트 하기
+
+
 }

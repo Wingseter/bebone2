@@ -23,6 +23,9 @@ public:
 	// 클라이언트의 가로 세로 길이 가져오기
 	void GetClientRect(CRect* rect);
 
+	// 모든 아이템 삭제
+	void deleteAllItems();
+
 private:
 	INT xPos, yPos;		// x, y 위치
 	INT width, height;	// 가로 세로 길이
