@@ -3,9 +3,9 @@
 
 class cell {
 public:
-	cell(INT x, INT y, TCHAR * newData, CDC * dc);
+	cell(TCHAR * newData, CDC * dc);
 	~cell();
-	void draw();
+	void draw(INT x, INT y);
 private:
 	INT xPos, yPos;
 	TCHAR data[100];

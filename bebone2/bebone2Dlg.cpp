@@ -109,7 +109,6 @@ BOOL Cbebone2Dlg::OnInitDialog()
 	db = new dataBase();
 
 	// 목록 초기화
-	CRect listRect;
 	/*list_visitor.GetClientRect(&listRect);
 	list_visitor.InsertColumn(0, "id", LVCFMT_LEFT, 100);
 	list_visitor.InsertColumn(1, "Name", LVCFMT_LEFT, 100);
@@ -127,8 +126,14 @@ BOOL Cbebone2Dlg::OnInitDialog()
 	dc = GetDC();
 
 	// 리스트 컨트롤 만들기
-	list_visit = new listControl(10, 10, 580, 330, dc);
-	list_visit->insertColumn(0, "hello", 10);
+	CRect listRect;
+	list_visit = new listControl(10, 10, 580, 300, dc);
+	list_visit->GetClientRect(&listRect);
+	list_visit->insertColumn(0, "id", 100);
+	list_visit->insertColumn(1, "Name", 100);
+	list_visit->insertColumn(2, "Location", 100);
+	list_visit->insertColumn(4, "Phone", 100);
+	list_visit->insertColumn(5, "Time", listRect.Width() - 400);
 	list_visit->insertItem(0, "test");
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.

@@ -9,11 +9,16 @@ cell::cell(INT x, INT y, TCHAR* newData, CDC* dc)
 	yPos = y;
 }
 
+cell::cell(TCHAR* newData, CDC* dc)
+{
+}
+
 cell::~cell()
 {
 }
 
-void cell::draw()
+void cell::draw(INT x, INT y)
 {
 	c_dc->TextOutA(xPos, yPos, data);
 }
+

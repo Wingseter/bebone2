@@ -28,6 +28,6 @@ private:
 	INT width, height;	// 가로 세로 길이
 	CDC * c_dc;		// 그리기 위한 dc
 	INT colCount;	// column 개수
-	std::vector<column*> columns; // column 모음
-	std::vector<column*>::iterator itor; // column iterator
+	std::vector<column> columns; // column 모음
+	std::vector<column>::iterator itor; // column iterator
 };

@@ -1,10 +1,14 @@
 #include "pch.h"
 #include "column.h"
 
-column::column(TCHAR* name, INT w, CDC* dc)
+column::column(INT x, INT y, INT w, INT h, TCHAR* name, CDC* dc)
 {
-	colName = name;
+	xPos = x;
+	yPos = y;
 	width = w;
+	height = h;
+
+	colName = name;
 	c_dc = dc;
 	cellCount = 0;
 }
@@ -15,11 +19,36 @@ column::~column()
 
 void column::draw()
 {
-	c_dc->Rectangle(0, 0, 10, 10);
+	CPen newPen, * oldPen;			// 선을 위한 pen 설정 
+	CBrush newBrush, * oldBrush;	// 채우기 위한 brush 설정
+	INT oldMode;					// 텍스트 배경을 위한 모드
+
+	// 큰 사각형 그리기
+	c_dc->Rectangle(xPos, yPos, xPos + width, yPos + height);
+	
+	// 내부의 Cell 그리기
 	for (itor = cells.begin(); itor != cells.end(); itor++) {
 		cell* itorcell = *itor;
 		itorcell->draw();
 	}
+
+	// 팬 브러시 설정
+	newPen.CreatePen(PS_SOLID, 2, RGB(0, 0, 0));
+	newBrush.CreateSolidBrush(RGB(235, 230, 230));
+	oldPen = c_dc->SelectObject(&newPen);
+	oldBrush = c_dc->SelectObject(&newBrush);
+
+	c_dc->Rectangle(xPos, yPos, xPos + width, yPos + 20);
+
+	
+	c_dc->SelectObject(oldPen);
+	c_dc->SelectObject(oldBrush);
+	newPen.DeleteObject();
+	newBrush.DeleteObject();
+
+	oldMode = c_dc->SetBkMode(TRANSPARENT);
+	c_dc->TextOutA(xPos + 7, yPos + 1, colName);
+	c_dc->SetBkMode(oldMode);
 }
 
 void column::insertRow(INT nRow, TCHAR* data)
@@ -39,4 +68,14 @@ void column::insertRow(INT nRow, TCHAR* data)
 	}
 
 	cellCount++;
+}
+
+void column::setXpos(INT x)
+{
+	xPos = x;
+}
+
+INT column::getWidth()
+{
+	return width;
 }
