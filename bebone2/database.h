@@ -21,8 +21,11 @@ public:
 	bool execQuery(TCHAR* query, INT option);
 	// 다음 결과
 	bool next();
-	// 결과 가져오기
-	char * getResult();
+	// 결과 문자열로 가져오기
+	char * getResultString();
+	// 특정 결과 가져오기
+	char* getResult(INT nSubItem);
+
 	void clearResult();
 
 private:

@@ -74,23 +74,12 @@ void Cbebone2Dlg::update()
 {
 	// 다음 column 으로 이동
 	for (int i = 0; db->next(); i++) {
-		// 결과 얻기
-		dbresult = db->getResult();
-
-		// 문자열 자르기
-		char* context = NULL;
-		char* cutPtr = strtok_s(dbresult, "|", &context);
-
 		// 새로운 ROW 추가
-		list_visit->insertItem(i, cutPtr);
-
-		// 첫번째 ROW 무시
-		cutPtr = strtok_s(NULL, "|", &context);
+		list_visit->insertItem(i, db->getResult(0));
 
 		// ROW에 아이템 추가
-		for (int j = 0; cutPtr != NULL; j++) {
-			list_visit->setItemText(i, j + 1, cutPtr);
-			cutPtr = strtok_s(NULL, "|", &context);
+		for (int j = 1; j < 5; j++) {
+			list_visit->setItemText(i, j, db->getResult(j));
 		}
 	}
 
@@ -104,13 +93,10 @@ void Cbebone2Dlg::loadProcedure()
 
 	db->execQuery("get_procedure_list", 1);
 	while (db->next()) {
-		dbresult = db->getResult();
+		dbresult = db->getResultString();
 
-		// 첫번째 결과만 가져오기
-		char* context = NULL;
-		char* cutPtr = strtok_s(dbresult, "|", &context);
-
-		list_proc.InsertString(-1, cutPtr);
+		// 첫번째 결과만 가져와서 출력
+		list_proc.InsertString(-1, db->getResult(0));
 	}
 }
 
@@ -287,6 +273,8 @@ void Cbebone2Dlg::OnDestroy()
 void Cbebone2Dlg::OnBnClickedPrint()
 {
 	// 프린터 정보 설정
+	CPrintDialog dlgPrint(FALSE);
 
+	if (IDOK == digPrint.)
 
 }

@@ -108,15 +108,28 @@ bool dataBase::next()
 			}
 			sprintf_s(result, SQL_RESULT_LEN, "%s|%s",  result, values[i]);
 		}
+		return true;
 	}
 	else {
 		return false;
 	}
 }
 
-char* dataBase::getResult()
+char* dataBase::getResultString()
 {
 	return result;
+}
+
+char* dataBase::getResult(INT nSubItem)
+{
+	// 잘못된 인수 입력은 공백을 반환
+	if (ids[nSubItem] < 0 || nSubItem > MAX_COLUMN) {
+		return "";
+	}
+	else {
+		// 정상적인 경우 결과 반환
+		return (char*)values[nSubItem];
+	}
 }
 
 void dataBase::clearResult()
