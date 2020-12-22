@@ -32,9 +32,9 @@ void Cbebone2Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, EDIT_PHONE, input_phone);
 	DDX_Control(pDX, RADIO_ID, radio_id);
 	DDX_Control(pDX, RADIO_NAME, radio_name);
-	//DDX_Control(pDX, LIST_VISITORS, list_visitor);
 	DDX_Control(pDX, RADIO_DATE, radio_date);
 	DDX_Control(pDX, INPUT_DATE, input_date);
+	DDX_Control(pDX, LIST_PCD, list_proc);
 }
 
 BEGIN_MESSAGE_MAP(Cbebone2Dlg, CDialogEx)
@@ -97,6 +97,23 @@ void Cbebone2Dlg::update()
 	list_visit->draw();
 }
 
+void Cbebone2Dlg::loadProcedure()
+{
+	// db 결과 버퍼 비우기
+	db->clearResult();
+
+	db->execQuery("get_procedure_list", 1);
+	while (db->next()) {
+		dbresult = db->getResult();
+
+		// 첫번째 결과만 가져오기
+		char* context = NULL;
+		char* cutPtr = strtok_s(dbresult, "|", &context);
+
+		list_proc.InsertString(-1, cutPtr);
+	}
+}
+
 BOOL Cbebone2Dlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
@@ -130,6 +147,9 @@ BOOL Cbebone2Dlg::OnInitDialog()
 
 	// 전체 목록 불러오기
 	refresh();
+
+	// 프로시저 목록 불러오기
+	loadProcedure();
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }

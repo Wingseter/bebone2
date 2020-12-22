@@ -76,6 +76,10 @@ void dataBase::exitDB()
 
 bool dataBase::execQuery(TCHAR* query, INT option)
 {
+	// 결과 메모리 초기화
+	memset(values, 0, sizeof(values));
+	memset(ids, -1, sizeof(ids));
+
 	if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_STMT, sqlConnHandle, &sqlStmtHandle))
 		checkError = FALSE;
 

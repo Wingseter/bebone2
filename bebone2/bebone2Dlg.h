@@ -37,6 +37,9 @@ protected:
 	// 목록 업데이트
 	void update();
 
+	// 프로시저 목록 가져오기
+	void loadProcedure();
+
 	// 생성된 메시지 맵 함수
 	virtual BOOL OnInitDialog();
 	afx_msg void OnPaint();
@@ -69,4 +72,6 @@ public:
 
 	// 방문자 목록 자작
 	listControl * list_visit;
+	// 프로시저 목록
+	CListBox list_proc;
 };
