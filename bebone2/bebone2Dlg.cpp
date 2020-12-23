@@ -113,6 +113,7 @@ BOOL Cbebone2Dlg::OnInitDialog()
 
 	// DB 초기화
 	db = new dataBase();
+	db->connectDB(SQL_SERVER, SQL_DB, SQL_ID, SQL_PW);
 
 	// 기본으로 id 검색 체크
 	radio_id.SetCheck(TRUE);

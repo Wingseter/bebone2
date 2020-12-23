@@ -5,6 +5,7 @@
 #pragma once
 #include "database.h"
 #include "listControl.h"
+#include "static.h"
 
 // Cbebone2Dlg 대화 상자
 class Cbebone2Dlg : public CDialogEx
@@ -51,7 +52,7 @@ public:
 	afx_msg void OnBnClickedSearch();
 	afx_msg void OnBnClickedAdd();
 	afx_msg void OnBnClickedRefresh();
-	afx_msg void OnBnClickedPrint();
+	afx_msg void OnBnClickedPrt();
 	afx_msg void OnDestroy();
 	// 검색어 입력
 	CEdit input_search;
@@ -74,6 +75,4 @@ public:
 	listControl * list_visit;
 	// 프로시저 목록
 	CListBox list_proc;
-	afx_msg void OnLbnSelchangePcd();
-	afx_msg void OnBnClickedPrt();
 };

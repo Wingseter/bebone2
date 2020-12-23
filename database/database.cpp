@@ -1,13 +1,21 @@
+ï»¿// database.cpp : DLLì˜ ì´ˆê¸°í™” ë£¨í‹´ì„ ì •ì˜í•©ë‹ˆë‹¤.
+//
+
 #include "pch.h"
+#include "framework.h"
 #include "database.h"
+
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
 
 dataBase::dataBase()
 {
-	// ÃÊ±âÈ­
+	// ì´ˆê¸°í™”
 	sqlConnHandle = NULL;
 	sqlStmtHandle = NULL;
 
-	// ODBC ÇÚµé ¼³Á¤ ¹× ÃÊ±âÈ­
+	// ODBC í•¸ë“¤ ì„¤ì • ë° ì´ˆê¸°í™”
 	if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &sqlEnvHandle))
 		exitDB();
 	if (SQL_SUCCESS != SQLSetEnvAttr(sqlEnvHandle, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0))
@@ -27,7 +35,7 @@ bool dataBase::connectDB(TCHAR* server, TCHAR* db, TCHAR* id, TCHAR* pw)
 	TCHAR connectSQL[150];
 
 	sprintf_s(connectSQL, 120, "DRIVER={SQL Server};SERVER=%s, 1433;DATABASE=%s;UID=%s;PWD=%s;", server, db, id, pw);
-	// ¿¬°á ½Ãµµ
+	// ì—°ê²° ì‹œë„
 	switch (SQLDriverConnect(sqlConnHandle,
 		NULL,
 		(SQLCHAR*)connectSQL,
@@ -36,26 +44,26 @@ bool dataBase::connectDB(TCHAR* server, TCHAR* db, TCHAR* id, TCHAR* pw)
 		1024,
 		NULL,
 		SQL_DRIVER_NOPROMPT)) {
-	case SQL_SUCCESS: // ¼º°ø
+	case SQL_SUCCESS: // ì„±ê³µ
 	case SQL_SUCCESS_WITH_INFO:
 		checkError = TRUE;
 		break;
-	case SQL_INVALID_HANDLE: // ½ÇÆĞ
+	case SQL_INVALID_HANDLE: // ì‹¤íŒ¨
 	case SQL_ERROR:
 		checkError = FALSE;
 		break;
-	default: // ½ÇÆĞ
+	default: // ì‹¤íŒ¨
 		checkError = FALSE;
 		break;
 	}
-	// ¸¸¾à ¿¬°á¿¡ ¹®Á¦°¡ ÀÖ´Ù¸é
-	// Á¾·á ÇÑ´Ù.
+	// ë§Œì•½ ì—°ê²°ì— ë¬¸ì œê°€ ìˆë‹¤ë©´
+	// ì¢…ë£Œ í•œë‹¤.
 
 	if (checkError) {
-		MessageBox(NULL, "DB¿¬°á ¼º°ø!", "Regular Warning", 0);
+		MessageBox(NULL, "DBì—°ê²° ì„±ê³µ!", "Regular Warning", 0);
 	}
 	else {
-		MessageBox(NULL, "¿¡·¯ ¹ß»ı!", "Regular Warning", 0);
+		MessageBox(NULL, "ì—ëŸ¬ ë°œìƒ!", "Regular Warning", 0);
 		exitDB();
 	}
 	return checkError;
@@ -75,20 +83,20 @@ void dataBase::exitDB()
 
 bool dataBase::execQuery(TCHAR* query, INT option)
 {
-	// °á°ú ¸Ş¸ğ¸® ÃÊ±âÈ­
+	// ê²°ê³¼ ë©”ëª¨ë¦¬ ì´ˆê¸°í™”
 	memset(values, 0, sizeof(values));
 	memset(ids, -1, sizeof(ids));
 
 	if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_STMT, sqlConnHandle, &sqlStmtHandle))
 		checkError = FALSE;
 
-	// Query ½ÇÇà ÇÁ·Î½ÃÀú »ç¿ë
+	// Query ì‹¤í–‰ í”„ë¡œì‹œì € ì‚¬ìš©
 	if (SQL_SUCCESS != SQLExecDirect(sqlStmtHandle, (SQLCHAR*)query, SQL_NTS)) {
-		// ¿À·ù ¹ß»ı½Ã Á¾·á	
+		// ì˜¤ë¥˜ ë°œìƒì‹œ ì¢…ë£Œ	
 		return false;
 	}
 	if (option == 1) {
-		// Á¤»ó ½ÇÇà ½Ã
+		// ì •ìƒ ì‹¤í–‰ ì‹œ
 		for (int i = 0; i < MAX_COLUMN; i++) {
 			SQLBindCol(sqlStmtHandle, i + 1, SQL_CHAR, &values[i], sizeof(values[i]), &ids[i]);
 		}
@@ -121,12 +129,12 @@ char* dataBase::getResultString()
 
 char* dataBase::getResult(INT nSubItem)
 {
-	// Àß¸øµÈ ÀÎ¼ö ÀÔ·ÂÀº °ø¹éÀ» ¹İÈ¯
+	// ì˜ëª»ëœ ì¸ìˆ˜ ì…ë ¥ì€ ê³µë°±ì„ ë°˜í™˜
 	if (ids[nSubItem] < 0 || nSubItem > MAX_COLUMN) {
 		return (char*)"";
 	}
 	else {
-		// Á¤»óÀûÀÎ °æ¿ì °á°ú ¹İÈ¯
+		// ì •ìƒì ì¸ ê²½ìš° ê²°ê³¼ ë°˜í™˜
 		return (char*)values[nSubItem];
 	}
 }

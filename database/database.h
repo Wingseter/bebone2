@@ -2,8 +2,6 @@
 #include <sqlext.h>
 #include <sqltypes.h>
 #include <sql.h>
-#include <Windows.h>
-#include <stdio.h>
 
 #pragma comment(lib, "odbc32.lib")
 
@@ -12,7 +10,7 @@
 #define MAX_COLUMN 10 // 최대 Column 개수
 #define SQL_RETURN_CODE_LEN 1024 // Query 결과 길이
 
-class dataBase {
+class AFX_EXT_CLASS dataBase {
 public:
 	dataBase();
 	~dataBase();
