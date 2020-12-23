@@ -27,6 +27,19 @@ void listControl::draw()
 	}
 }
 
+void listControl::draw(INT otherX, INT otherY, CDC* otherDC)
+{
+	// 사각형으로 전체 리스트 배경을 그린다
+	otherDC->Rectangle(otherX, otherY, otherX + width, otherY + height);
+
+	//  안의 column 그리기
+	INT columnX = otherX;
+	for (itor = columns.begin(); itor != columns.end(); itor++) {
+		itor->draw(columnX, otherY, otherDC);
+		columnX += itor->getWidth();
+	}
+}
+
 void listControl::insertColumn(INT nCol, TCHAR* colName, INT width)
 {
 	INT columnX = xPos;	// column의 x 좌표는 list control의 x좌표로 초기화
@@ -86,3 +99,4 @@ void listControl::deleteAllItems()
 		itor->deleteAllCells();
 	}
 }
+

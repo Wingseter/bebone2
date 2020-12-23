@@ -8,6 +8,7 @@ public:
 	column(INT x, INT y, INT w, INT h, TCHAR * name, CDC * dc);
 	~column();
 	void draw();							// column 그리기
+	void draw(INT otherX, INT otherY, CDC * otherDC);				// 프린트용 column 그리기
 	void insertRow(INT nRow, TCHAR * data);	// 새로운 요소 추가
 	void setXpos(INT x);					// x좌표를 변경한다.
 	void setCellText(INT nRow, TCHAR * data);	// cell의 데이터를 변경한다.

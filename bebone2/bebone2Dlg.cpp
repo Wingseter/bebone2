@@ -44,7 +44,7 @@ BEGIN_MESSAGE_MAP(Cbebone2Dlg, CDialogEx)
 	ON_BN_CLICKED(BUTTON_ADD, &Cbebone2Dlg::OnBnClickedAdd)
 	ON_BN_CLICKED(BUTTON_REFRESH, &Cbebone2Dlg::OnBnClickedRefresh)
 	ON_WM_DESTROY()
-	ON_BN_CLICKED(BUTTON_PRINT, &Cbebone2Dlg::OnBnClickedPrint)
+	ON_BN_CLICKED(BUTTON_PRT, &Cbebone2Dlg::OnBnClickedPrt)
 END_MESSAGE_MAP()
 
 
@@ -188,7 +188,7 @@ void Cbebone2Dlg::OnBnClickedSearch()
 	// Query 문자열
 	char query[100];
 
-
+	// 전체 목록 지우기
 	clear();
 	// id로 검색
 	if (radio_id.GetCheck()) {
@@ -263,18 +263,80 @@ void Cbebone2Dlg::OnDestroy()
 	CDialogEx::OnDestroy();
 	// DB 종료
 	delete db;
+
+	// 리스트 삭제
 	delete list_visit;
 	ReleaseDC(dc);
 }
 
 
 
-
-void Cbebone2Dlg::OnBnClickedPrint()
+void Cbebone2Dlg::OnBnClickedPrt()
 {
-	// 프린터 정보 설정
-	CPrintDialog dlgPrint(FALSE);
+	// 프린터 다이얼로그
+	CPrintDialog dlg(FALSE, PD_ALLPAGES | PD_RETURNDC, NULL);
+	dlg.DoModal();
+	if (!dlg.m_pd.hDC) {
+		MessageBox("유효하지 않은 프린터 핸들입니다!");
+		return;
+	}
 
-	if (IDOK == digPrint.)
+	// 문서 만들기
+	CDC* pDC = new CDC;
+	pDC->Attach(dlg.m_pd.hDC);
+	pDC->StartDoc("CovidVisit");
+	pDC->StartPage();
 
+	CSize sizeDoc(600, 300);       // 화면크기 설정 
+	CSize sizePrint(pDC->GetDeviceCaps(HORZRES), pDC->GetDeviceCaps(VERTRES));
+
+	pDC->SetMapMode(MM_ANISOTROPIC);   //메핑모드 수정 
+
+	// 가운데 인쇄 시작위치 및 인쇄 크기 다시 구함
+	double dRate, xRate, yRate;
+	CPoint pointStart(0, 0);	// 시작 위치 변수
+	xRate = (double)sizePrint.cx / (double)sizeDoc.cx;	// x 확대 비율
+	yRate = (double)sizePrint.cy / (double)sizeDoc.cy; // y 확대 비율
+	dRate = min(xRate, yRate);	// 비율이 작은 것에 맞춤
+
+	if (xRate > yRate)
+		// sizeDoc.cx * dRate : 수정된 가로 프린터 화면 크기
+		pointStart.x = (int)(sizePrint.cx - sizeDoc.cx * dRate) / 2;
+	else
+		// sizeDoc.cy * dRate : 수정된 세로 프린터 화면 크기
+		pointStart.y = (int)(sizePrint.cy - sizeDoc.cy * dRate) / 2;
+
+	// 프린트 사이즈
+	sizePrint = CSize((int)(sizeDoc.cx * dRate), (int)(sizeDoc.cy * dRate));
+
+	pDC->SetViewportOrg(pointStart);              //시작위치 설정
+	pDC->SetWindowExt(sizeDoc.cx, sizeDoc.cy);  //화면 크기 설정
+	pDC->SetViewportExt(sizePrint.cx, sizePrint.cy);  //프린터 화면 크기 설정
+
+	// 문서 제목 그리기
+	// 글꼴 설정
+	CFont font;
+	font.CreateFont(50, 0, 0, 0, FW_HEAVY,
+		FALSE, FALSE, FALSE,
+		ANSI_CHARSET, OUT_DEFAULT_PRECIS,
+		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
+		NULL, "맑은 고딕");
+	CFont* pFont;
+	pFont = pDC->SelectObject(&font);
+
+	// 텍스트 출력
+	pDC->TextOutA(10, 10, "COVID-19 Visitor List");
+
+	// 글꼴 원래대로 바꾸기
+	pDC->SelectObject(pFont);
+	font.DeleteObject();
+
+	// 문서에 표 그리기
+	list_visit->draw(10, 60, pDC);
+
+	pDC->EndPage();
+	pDC->EndDoc();
+	pDC->DeleteDC();
+	pDC->Detach();
+	delete pDC;
 }

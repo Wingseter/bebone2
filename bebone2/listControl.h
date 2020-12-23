@@ -11,6 +11,9 @@ public:
 	// 리스트 컨트롤 그리기
 	void draw();
 
+	// 프린트용 리스트 컨트롤 그리기
+	void draw(INT otherX, INT otherY, CDC* otherDC);
+
 	// 열 추가
 	void insertColumn(INT nCol, TCHAR * colName, INT width);
 
@@ -25,6 +28,7 @@ public:
 
 	// 모든 아이템 삭제
 	void deleteAllItems();
+
 
 private:
 	INT xPos, yPos;		// x, y 위치

@@ -74,4 +74,6 @@ public:
 	listControl * list_visit;
 	// 프로시저 목록
 	CListBox list_proc;
+	afx_msg void OnLbnSelchangePcd();
+	afx_msg void OnBnClickedPrt();
 };
