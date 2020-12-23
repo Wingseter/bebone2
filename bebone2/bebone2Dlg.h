@@ -3,8 +3,8 @@
 //
 
 #pragma once
-#include "database.h"
-#include "listControl.h"
+#include <database.h>
+#include <listControl.h>
 #include "static.h"
 
 // Cbebone2Dlg 대화 상자
